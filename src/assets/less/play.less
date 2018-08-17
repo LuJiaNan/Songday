@@ -1,0 +1,258 @@
+@keyframes rotation{
+  from {-webkit-transform: rotate(0deg);}
+  to {-webkit-transform: rotate(360deg);}
+}
+.content{
+  min-width: 930px;
+  min-height: 500px;
+  position: relative;
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  -ms-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: .2s;
+  -moz-transition-duration: .2s;
+  -o-transition-duration: .2s;
+  -ms-transition-duration: .2s;
+  transition-duration: .2s;
+}
+/* player播放器 */
+.bottomPlayer{
+  height: 80px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  // background: url(http://gtms01.alicdn.com/tps/i1/T10MNqFzVXXXcu5FDa-20-20.png) repeat 0 0;
+  background: #000;
+}
+.playerBlock{
+  height: 100%;
+  position: relative;
+  padding-left: 278px;
+  padding-right: 330px;
+}
+.player-controls {
+  width: 278px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  .prev-btn, .play-btn, .pause-btn, .next-btn{
+    display: block;
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    cursor: pointer;
+  }
+  .prev-btn {
+    top: 25px;
+    left: 38px;
+    background-position: 0 -90px;
+  }
+  .pause-btn, .play-btn{
+    top: 25px;
+    left: 91px;
+  }
+  .next-btn{
+    top: 25px;
+    left: 144px;
+    background-position: 0 -60px;
+  }
+  .prev-btn:hover{
+    background-position: -30px -90px;
+  }
+  .play-btn{
+    background-position: 0 0;
+  }
+  .play-btn:hover{
+    background-position: -30px 0;
+  }
+  .pause-btn{
+    background-position: 0 -30px;
+  }
+  .pause-btn:hover{
+    background-position: -30px -30px;
+  }
+  .next-btn:hover{
+    background-position: -30px -60px;
+  }
+  .player-mode{
+    position: absolute;
+    top: 31px;
+    left: 202px;
+    width: 20px;
+    text-align: right;
+    a{
+      display: block;
+      width: 20px;
+      height: 18px;
+      cursor: pointer;
+    }
+  }
+  .mode-order {
+    background-position: 0 -181px;
+  }
+  .mode-order:hover {
+    background-position: -30px -181px;
+  }
+  .mode-random {
+    background-position: 0 -221px;
+  }
+  .mode-random:hover {
+    background-position: -30px -221px;
+  }
+  .mode-single {
+    background-position: 0 -201px;
+  }
+  .mode-single:hover {
+    background-position: -30px -201px;
+  }
+}
+.player-info {
+  height: 100%;
+  width:400px;
+  position: relative;
+  user-select: text;
+  -moz-user-select: text;
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  .track-info{
+    position: absolute;
+    top: 20px;
+    height: 18px;
+    line-height: 18px;
+    width: 100%;
+    color: #fff;
+    .player-track-info{
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      padding-right: 0;
+      font-size: 14px;
+      a:link, a:visited{
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+  .player-length{
+    position: absolute;
+    top: 43px;
+    font-size: 10px;
+    height: 20px;
+    .player-position{
+      position: absolute;
+      line-height: 18px;
+      left: 0;
+      top:5px;
+      color: #fff;
+      width: 40px;
+      filter: alpha(opacity=30);
+      opacity: .3;
+    }
+    .progressBlock{
+      height:3px;
+      background:#dfdfdf;
+      width:100%;
+      cursor: pointer;
+      .progress{
+        height:100%;
+      }
+    }
+    .player-duration{
+      position: absolute;
+      line-height: 18px;
+      right: 0;
+      top:5px;
+      color: #fff;
+      width: 40px;
+      text-align: right;
+      filter: alpha(opacity=30);
+      opacity: .3;
+    }
+  }
+  .player-progress{
+    position: absolute;
+    height: 18px;
+    left: 40px;
+    right: 40px;
+    .progress{
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR…AADsMAAA7DAcdvqGQAAAASSURBVBhXY/j//78xCEMZ/40Bd5oMwTgDaikAAAAASUVORK5CYII=) repeat-x 0 50%;
+    }
+  }
+  .player-cover{
+    position: absolute;
+    top: 16px;
+    height: 50px;
+    right:0;
+    .cover{
+      width:50px;
+      border-radius: 50%;
+      -webkit-transform: rotate(360deg);
+      animation: rotation 18s linear infinite;
+      -moz-animation: rotation 18s linear infinite;
+      -webkit-animation: rotation 18s linear infinite;
+      -o-animation: rotation 18s linear infinite;
+    }
+  }
+}
+.player-volume{
+  width: 290px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  #volume {
+    position: absolute;
+    top: 31px;
+    right: 88px;
+    height: 18px;
+    .volume-control{
+      display:inline-block;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+    .volumeBlock{
+      height: 2px;
+      background: #dfdfdf;
+      vertical-align: middle;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .volumeProgress{
+      height:100%;
+      background:greenyellow;
+    }
+    .volume-on {
+      background-position: 0 -295px;
+      width: 18px;
+      height: 18px;
+    }
+    .volume-off {
+      background-position: 0 -313px;
+      width: 18px;
+      height: 18px;
+    }
+    .volume-on:hover {
+      background-position: -28px -295px;
+    }
+    .volume-off:hover {
+      background-position: -28px -313px;
+    }
+  }
+}
+.prev-btn, .play-btn, .next-btn, .pause-btn,.mode-order, .mode-single, .mode-random, .volume-on, .volume-off{
+  background-image: url(http://ouanvm4st.bkt.clouddn.com/Songday/image/playIcons.png);
+  background-repeat: no-repeat;
+}
+.scrollLyric{
+  text-align:center;
+  line-height:1.5rem;
+  height: 100%;
+  overflow: auto;
+}
