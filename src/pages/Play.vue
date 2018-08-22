@@ -1,8 +1,8 @@
 <template>
     <div class="content">
         <my-header></my-header>
-        <div id="scrollLyric" class="scrollLyric" v-html="lyricText">
-          {{lyricText}}
+        <div id="lyricBody" class="lyricBody">
+          <div id="scrollLyric" class="scrollLyric" v-html="lyricText" v-bind:style="{ marginTop: scrollPx + 'px' }"></div>
         </div>
         <audio ref='audio' v-bind:src="songUrl | getUrl"></audio>
         <div class="bottomPlayer">
@@ -55,7 +55,6 @@ import { MUSIC_LIST } from '../assets/js/musicJson'
 import { Button } from 'element-ui/lib/button'
 import Lyric from 'lyric-parser'
 import { LYRIC } from '../assets/js/lyricJson'
-const regex = '/[.*/]'
 export default{
   name: 'Play',
   components: {
@@ -81,7 +80,7 @@ export default{
       volumeStatus: 'on',
       loopType: 'random',
       maxVolume: 100,
-      currentVolume: 10,
+      currentVolume: 0,
       playerLength: {
         width: '300px'
       },
@@ -89,17 +88,17 @@ export default{
         width: 0,
         background: 'deepskyblue'
       },
-      lyricText: LYRIC[0].str.replace(regex, '')
+      lyricStr: '',
+      lyricText: '',
+      currentTime: 0,
+      scrollPx: 0,
+      currentLineNum: 0
     }
   },
   mounted: function () {
     this.randomSongIndex = Math.floor(Math.random() * this.musicList.length)
     this.initPlayer()
     this.bind()
-    let lyric = new Lyric(LYRIC[0].str, function (obj) {
-      // self.lyricText += '<div>' + obj.txt + '</div>'
-    })
-    lyric.play()
   },
   methods: {
     initPlayer: function () {
@@ -115,7 +114,37 @@ export default{
       //   self.seconds++
       // }, 1000)
       // 改变url之后调用播放方法
+      this.initLyric(1)
       myAudio.load()
+      const lyric = new Lyric(this.lyricStr, function (obj) {
+        // self.lyricText += '<div>' + obj.txt + '</div>'
+        // console.log(obj)
+        // console.log(obj.lineNum)
+        let present = Date.parse(new Date())
+        // let time = present - self.currentTime
+        self.currentTime = present
+        self.scrollPx = -obj.lineNum * 20
+        console.log(self.scrollPx)
+      })
+      lyric.stop()
+      lyric.play()
+    },
+    initLyric: function (index) {
+      let lyricStr = LYRIC[index].str.map((value, i) => {
+        return '<span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + value + '</span>'
+        // return {
+        //   <span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + value + '</span>'
+        // }
+      })
+      console.log(lyricStr)
+      lyricStr = lyricStr.join('</br>\n')
+      // 去掉所有[时间]
+      let lyric = lyricStr.replace(/\[.*?\]/g, '')
+      // for (let i = 0; i < 5; i++) {
+      //   lyric = lyric.replace('<br>/n<span></span>', '')
+      // }
+      this.lyricText = lyric
+      this.lyricStr = lyricStr
     },
     bind: function () {
       let self = this

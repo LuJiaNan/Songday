@@ -1,3 +1,4 @@
+@change_time:1s;
 @keyframes rotation{
   from {-webkit-transform: rotate(0deg);}
   to {-webkit-transform: rotate(360deg);}
@@ -193,7 +194,11 @@
     .cover{
       width:50px;
       border-radius: 50%;
-      -webkit-transform: rotate(360deg);
+      transform:rotate(360deg);
+      -ms-transform:rotate(360deg); 	/* IE 9 */
+      -moz-transform:rotate(360deg); 	/* Firefox */
+      -webkit-transform:rotate(360deg); /* Safari 和 Chrome */
+      -o-transform:rotate(360deg); 	/* Opera */
       animation: rotation 18s linear infinite;
       -moz-animation: rotation 18s linear infinite;
       -webkit-animation: rotation 18s linear infinite;
@@ -250,9 +255,25 @@
   background-image: url(http://ouanvm4st.bkt.clouddn.com/Songday/image/playIcons.png);
   background-repeat: no-repeat;
 }
+.lyricBody{
+  height: 600px;
+  margin: auto;  
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  bottom: 0; 
+  right: 0;
+  overflow-y: auto;
+}
 .scrollLyric{
   text-align:center;
   line-height:1.5rem;
-  height: 100%;
-  overflow: auto;
+  height:100%;
+  transition:all @change_time;
+  -moz-transition:all @change_time;
+  -webkit-transition:all @change_time;
+  -o-transition:all @change_time;
+}
+.activeLyric{
+  color:deepskyblue
 }
