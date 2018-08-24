@@ -2,7 +2,9 @@
     <div class="content">
         <my-header></my-header>
         <div id="lyricBody" class="lyricBody">
-          <div id="scrollLyric" class="scrollLyric" v-html="lyricText" v-bind:style="{ marginTop: scrollPx + 'px' }"></div>
+          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }">
+            <lyricText v-bind:lyricStr="lyricStr"></lyricText>
+          </div>
         </div>
         <audio ref='audio' v-bind:src="songUrl | getUrl"></audio>
         <div class="bottomPlayer">
@@ -51,6 +53,7 @@
 <script>
 import myHeader from '../components/Header.vue'
 import myProgress from '../components/Progress.vue'
+import lyricText from '../components/LyricText.vue'
 import { MUSIC_LIST } from '../assets/js/musicJson'
 import { Button } from 'element-ui/lib/button'
 import Lyric from 'lyric-parser'
@@ -60,6 +63,7 @@ export default{
   components: {
     myHeader,
     myProgress,
+    lyricText,
     Button
   },
   data () {
@@ -130,21 +134,14 @@ export default{
       lyric.play()
     },
     initLyric: function (index) {
-      let lyricStr = LYRIC[index].str.map((value, i) => {
-        return '<span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + value + '</span>'
-        // return {
-        //   <span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + value + '</span>'
-        // }
-      })
-      console.log(lyricStr)
-      lyricStr = lyricStr.join('</br>\n')
-      // 去掉所有[时间]
-      let lyric = lyricStr.replace(/\[.*?\]/g, '')
-      // for (let i = 0; i < 5; i++) {
-      //   lyric = lyric.replace('<br>/n<span></span>', '')
-      // }
-      this.lyricText = lyric
-      this.lyricStr = lyricStr
+      // let lyricStr = LYRIC[index].str.map((value, i) => {
+      //   // 去掉所有[时间]
+      //   let text = value.replace(/\[.*?\]/g, '')
+      //   return '<span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + text + '</span>'
+      // })
+      this.lyricStr = LYRIC[index].str
+      // lyricStr = lyricStr.join('</br>\n')
+      // this.lyricText = lyricStr
     },
     bind: function () {
       let self = this
