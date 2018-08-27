@@ -126,8 +126,8 @@ export default{
         let present = Date.parse(new Date())
         // let time = present - self.currentTime
         self.currentTime = present
-        self.scrollPx = -obj.lineNum * 25
-        console.log(self.scrollPx)
+        self.scrollPx = -obj.lineNum * 10
+        self.playLyric(1, obj.lineNum)
       })
       lyric.stop()
       lyric.play()
@@ -146,18 +146,35 @@ export default{
               let text = value.replace(/\[.*?\]/g, '')
               return createElement('span', [
                 createElement('br', ''),
-                createElement('span', { class: 'line' + i }, text)
+                createElement('span', text)
               ])
             })
           )
         }
       })
+      this.lyricStr = LYRIC[index].str.join('</br>\n')
       // lyricStr = lyricStr.join('</br>\n')
       // // 去掉所有[时间]
       // let lyric = lyricStr.replace(/\[.*?\]/g, '')
       // // 去掉/n
       // this.lyricHtml = lyric.replace(/\n/g, '')
       // this.lyricStr = lyricStr
+    },
+    playLyric: function (index, lineNum) {
+      console.log(lineNum)
+      Vue.component('my-component', {
+        render: function (createElement, context) {
+          return createElement('div',
+            LYRIC[index].str.map((value, i) => {
+              let text = value.replace(/\[.*?\]/g, '')
+              return createElement('span', [
+                createElement('br', ''),
+                createElement('span', {style: {color: i - 4 === lineNum ? 'red' : ''}}, text)
+              ])
+            })
+          )
+        }
+      })
     },
     bind: function () {
       let self = this
