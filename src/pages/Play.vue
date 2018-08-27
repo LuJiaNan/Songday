@@ -102,7 +102,9 @@ export default{
     }
   },
   mounted: function () {
-    this.randomSongIndex = Math.floor(Math.random() * this.musicList.length)
+    // this.randomSongIndex = Math.floor(Math.random() * this.musicList.length)
+    // 成都测试
+    this.randomSongIndex = 1
     this.initPlayer()
     this.bind()
   },
@@ -126,7 +128,7 @@ export default{
         let present = Date.parse(new Date())
         // let time = present - self.currentTime
         self.currentTime = present
-        self.scrollPx = -obj.lineNum * 10
+        self.scrollPx = -obj.lineNum * 20
         self.playLyric(1, obj.lineNum)
       })
       lyric.stop()
