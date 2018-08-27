@@ -86,7 +86,7 @@ export default{
       volumeStatus: 'on',
       loopType: 'random',
       maxVolume: 100,
-      currentVolume: 0,
+      currentVolume: 10,
       playerLength: {
         width: '300px'
       },
@@ -169,7 +169,7 @@ export default{
               let text = value.replace(/\[.*?\]/g, '')
               return createElement('span', [
                 createElement('br', ''),
-                createElement('span', {style: {color: i - 4 === lineNum ? 'red' : ''}}, text)
+                createElement('span', {style: {color: i - 5 === lineNum ? 'red' : ''}}, text)
               ])
             })
           )
