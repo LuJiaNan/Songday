@@ -2,8 +2,9 @@
     <div class="content">
         <my-header></my-header>
         <div id="lyricBody" class="lyricBody">
-          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }" v-html="lyricHtml">
+          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }">
             <!-- <lyricText v-bind:lyricStr="lyricStr"></lyricText> -->
+            <my-component></my-component>
           </div>
         </div>
         <audio ref='audio' v-bind:src="songUrl | getUrl"></audio>
@@ -51,6 +52,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import myHeader from '../components/Header.vue'
 import myProgress from '../components/Progress.vue'
 import lyricText from '../components/LyricText.vue'
@@ -134,15 +136,28 @@ export default{
       // 用组件时的参数
       // this.lyricStr = LYRIC[index].str
       // 不用组件
-      let lyricStr = LYRIC[index].str.map((value, i) => {
-        return '<span>' + value + '</span>'
+      // let str = LYRIC[index].str.map((value, i) => {
+      //   return value + '\n'
+      // })
+      Vue.component('my-component', {
+        render: function (createElement, context) {
+          return createElement('div',
+            LYRIC[index].str.map((value, i) => {
+              let text = value.replace(/\[.*?\]/g, '')
+              return createElement('span', [
+                createElement('br', ''),
+                createElement('span', { class: 'line' + i }, text)
+              ])
+            })
+          )
+        }
       })
-      lyricStr = lyricStr.join('</br>\n')
-      // 去掉所有[时间]
-      let lyric = lyricStr.replace(/\[.*?\]/g, '')
-      // 去掉/n
-      this.lyricHtml = lyric.replace(/\n/g, '')
-      this.lyricStr = lyricStr
+      // lyricStr = lyricStr.join('</br>\n')
+      // // 去掉所有[时间]
+      // let lyric = lyricStr.replace(/\[.*?\]/g, '')
+      // // 去掉/n
+      // this.lyricHtml = lyric.replace(/\n/g, '')
+      // this.lyricStr = lyricStr
     },
     bind: function () {
       let self = this
