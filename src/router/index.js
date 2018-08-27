@@ -4,6 +4,7 @@ import HomePage from '@/pages/HomePage'
 import Play from '@/pages/Play'
 import List from '@/pages/List'
 import Login from '@/pages/Login'
+import LGD from '@/pages/LGD'
 
 Vue.use(Router)
 
@@ -33,6 +34,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/lgd',
+      name: 'LGD',
+      component: LGD
     }
   ]
 })

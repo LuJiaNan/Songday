@@ -9,6 +9,7 @@
         <li><router-link to="/play">Play</router-link></li>
         <li><router-link to="/list">List</router-link></li>
         <li><router-link to="/login">Logout</router-link></li>
+        <li><router-link to="/lgd">LGD</router-link></li>
         <li><a href="#timetable">Lineup</a></li>
         <li><a href="#tickets">Timetable</a></li>
         <li><a href="#access">Access</a></li>

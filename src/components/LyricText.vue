@@ -1,35 +1,42 @@
 <template>
-  <div>{{lyricData}}</div>
+  <div v-html="lyricHtml" class="lyricHtml">{{lyricHtml}}</div>
 </template>
 <script>
 export default {
   data () {
     return {
       name: '',
-      lyricData: ''
+      lyricData: '',
+      lyricHtml: ''
     }
   },
   props: ['lyricStr'],
   mounted: function () {
     if (this.lyricStr) {
-      localStorage.setItem('lyricStr', this.lyricStr)
+      localStorage.setItem('lyricStr', JSON.stringify(this.lyricStr))
       this.lyricData = this.lyricStr
     } else {
-      let lyricStr = localStorage.getItem('lyricStr')
+      let lyricStr = JSON.parse(localStorage.getItem('lyricStr'))
       this.lyricData = lyricStr
     }
     this.initLyricText(this.lyricData)
   },
   methods: {
     initLyricText: function (data) {
-      console.log('44444')
+      console.log(data)
       let lyricStr = data.map((value, i) => {
         // 去掉所有[时间]
         let text = value.replace(/\[.*?\]/g, '')
-        return '<span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + text + '</span>'
+        return '<span>' + text + '</span>'
       })
-      console.log(lyricStr)
+      this.lyricHtml = lyricStr.join('</br>\n')
     }
   }
 }
 </script>
+<style scoped>
+  .lyricHtml{
+    width:100%;
+    height:100%;
+  }
+</style>

@@ -2,8 +2,8 @@
     <div class="content">
         <my-header></my-header>
         <div id="lyricBody" class="lyricBody">
-          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }">
-            <lyricText v-bind:lyricStr="lyricStr"></lyricText>
+          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }" v-html={lyricHtml}>
+            <!-- <lyricText v-bind:lyricStr="lyricStr"></lyricText> -->
           </div>
         </div>
         <audio ref='audio' v-bind:src="songUrl | getUrl"></audio>
@@ -93,7 +93,7 @@ export default{
         background: 'deepskyblue'
       },
       lyricStr: '',
-      lyricText: '',
+      lyricHtml: '',
       currentTime: 0,
       scrollPx: 0,
       currentLineNum: 0
@@ -121,27 +121,28 @@ export default{
       this.initLyric(1)
       myAudio.load()
       const lyric = new Lyric(this.lyricStr, function (obj) {
-        // self.lyricText += '<div>' + obj.txt + '</div>'
-        // console.log(obj)
-        // console.log(obj.lineNum)
         let present = Date.parse(new Date())
         // let time = present - self.currentTime
         self.currentTime = present
-        self.scrollPx = -obj.lineNum * 20
+        self.scrollPx = -obj.lineNum * 25
         console.log(self.scrollPx)
       })
       lyric.stop()
       lyric.play()
     },
     initLyric: function (index) {
-      // let lyricStr = LYRIC[index].str.map((value, i) => {
-      //   // 去掉所有[时间]
-      //   let text = value.replace(/\[.*?\]/g, '')
-      //   return '<span v-bind:class="[currentLineNum === 0 ? activeLyric : ""]">' + text + '</span>'
-      // })
-      this.lyricStr = LYRIC[index].str
-      // lyricStr = lyricStr.join('</br>\n')
-      // this.lyricText = lyricStr
+      // 用组件时的参数
+      // this.lyricStr = LYRIC[index].str
+      // 不用组件
+      let lyricStr = LYRIC[index].str.map((value, i) => {
+        return '<span>' + value + '</span>'
+      })
+      lyricStr = lyricStr.join('</br>\n')
+      // 去掉所有[时间]
+      let lyric = lyricStr.replace(/\[.*?\]/g, '')
+      // 去掉/n
+      this.lyricHtml = lyric.replace(/\n/g, '')
+      this.lyricStr = lyricStr
     },
     bind: function () {
       let self = this
