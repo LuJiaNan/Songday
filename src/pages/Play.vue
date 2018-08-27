@@ -2,7 +2,7 @@
     <div class="content">
         <my-header></my-header>
         <div id="lyricBody" class="lyricBody">
-          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }" v-html={lyricHtml}>
+          <div id="scrollLyric" class="scrollLyric" v-bind:style="{ marginTop: scrollPx + 'px' }" v-html="lyricHtml">
             <!-- <lyricText v-bind:lyricStr="lyricStr"></lyricText> -->
           </div>
         </div>
