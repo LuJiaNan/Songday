@@ -59,6 +59,7 @@ import lyricText from '../components/LyricText.vue'
 import { MUSIC_LIST } from '../assets/js/musicJson'
 import { Button } from 'element-ui/lib/button'
 import Lyric from 'lyric-parser'
+import { _ } from 'underscore'
 import { LYRIC } from '../assets/js/lyricJson'
 export default{
   name: 'Play',
@@ -86,7 +87,7 @@ export default{
       volumeStatus: 'on',
       loopType: 'random',
       maxVolume: 100,
-      currentVolume: 10,
+      currentVolume: 0,
       playerLength: {
         width: '300px'
       },
@@ -98,7 +99,8 @@ export default{
       lyricHtml: '',
       currentTime: 0,
       scrollPx: 0,
-      currentLineNum: 0
+      currentLineNum: 0,
+      lyricIndex: 1
     }
   },
   mounted: function () {
@@ -122,17 +124,15 @@ export default{
       //   self.seconds++
       // }, 1000)
       // 改变url之后调用播放方法
-      this.initLyric(1)
+      this.initLyric(this.lyricIndex)
       myAudio.load()
       const lyric = new Lyric(this.lyricStr, function (obj) {
-        let present = Date.parse(new Date())
-        // let time = present - self.currentTime
-        self.currentTime = present
-        self.scrollPx = -obj.lineNum * 20
-        self.playLyric(1, obj.lineNum)
+        self.playLyric(self.lyricIndex, obj.lineNum)
       })
-      lyric.stop()
-      lyric.play()
+      this.lyricObj = lyric
+      this.lyricObj.stop()
+      this.lyricObj.play()
+      this.originTime = Date.parse(new Date())
     },
     initLyric: function (index) {
       // 用组件时的参数
@@ -163,15 +163,21 @@ export default{
       // this.lyricStr = lyricStr
     },
     playLyric: function (index, lineNum) {
-      console.log(lineNum)
+      // console.log(lineNum)
+      this.scrollPx = -lineNum * 20
       Vue.component('my-component', {
         render: function (createElement, context) {
           return createElement('div',
             LYRIC[index].str.map((value, i) => {
               let text = value.replace(/\[.*?\]/g, '')
+              let active = i - 5 === lineNum
               return createElement('span', [
                 createElement('br', ''),
-                createElement('span', {style: {color: i - 5 === lineNum ? 'red' : ''}}, text)
+                createElement('span', {style: {
+                  color: active ? 'deepskyblue' : '',
+                  fontSize: active ? '18px' : '',
+                  opacity: 1 - Math.abs(i - 5 - lineNum) / 20
+                }}, text)
               ])
             })
           )
@@ -295,7 +301,28 @@ export default{
       }
     },
     changePlayProgress: function (e) {
-      this.$refs.audio.currentTime = (parseInt(e.offsetX) / parseInt(this.playerLength.width)) * parseInt(this.$refs.audio.duration)
+      let currentTime = (parseInt(e.offsetX) / parseInt(this.playerLength.width)) * parseInt(this.$refs.audio.duration)
+      this.$refs.audio.currentTime = currentTime
+      this.startTime = Date.parse(new Date())
+      // console.log(currentTime)
+      let lyricArr = LYRIC[this.lyricIndex].str.map((value, i) => {
+        let str = value.substring(value.indexOf('[') + 1, value.indexOf(']'))
+        let arr = str.split(':')
+        let re = /^0|[1-9]+[0-9]*]*$/ // 判断字符串是否为整数
+        console.log(re.test(parseInt(arr[0])))
+        if (re.test(arr[0])) {
+          return Math.abs(parseInt(arr[0]) * 60 + parseInt(arr[1]) - parseInt(currentTime))
+        } else {
+          return Math.abs(0 - parseInt(currentTime))
+        }
+      })
+      let min = _.min(lyricArr)
+      let index = _.indexOf(lyricArr, min)
+      console.log(index)
+      this.lyricObj.stop()
+      this.lyricObj.play(this.startTime - this.originTime)
+      // let currentLine = LYRIC[this.lyricIndex].str[index]
+      this.playLyric(this.lyricIndex, index)
     }
   }
 }
