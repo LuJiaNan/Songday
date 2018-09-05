@@ -1,5 +1,5 @@
 <template>
-  <div class="progressBlock" v-bind:style="progressBlock">
+  <div class="progressBlock" v-bind:style="progressBlock" v-on:click="changePlayProgress">
     <div class="progress" v-bind:style="progress"></div>
   </div>
 </template>
@@ -12,44 +12,18 @@ export default {
   ],
   data () {
     return {
-      progressBlock: {
-        width: 0
-      },
-      progress: {
-        background: '#fff',
-        width: 0
-      }
+      progressBlock: {},
+      progress: {}
     }
+  },
+  mounted: function () {
+    this.progressBlock = this.progressBlockStyle
+    this.progress = this.progressStyle
   },
   methods: {
-    update: function () {
-      console.log(this.progressStyle.width)
-    }
-  },
-  created: function () {
-    this.progressBlock.width = this.progressBlockStyle.width
-    this.progress.background = this.progressStyle.color
-    this.progress.width = this.progressStyle.width
-  },
-  watch: {
-    progressBlock: function (newValue, oldValue) {
-      console.log(newValue)
-      this.update()
-    },
-    progress: function (newValue, oldValue) {
-      console.log(newValue)
-      this.update()
+    changePlayProgress: function (e) {
+      this.$emit('changePlayProgress', e)
     }
   }
 }
 </script>
-<style scoped>
-    .progressBlock{
-        height:3px;
-        background:#dfdfdf;
-    }
-    .progress{
-        height:100%;
-        /* background:dodgerblue; */
-    }
-</style>

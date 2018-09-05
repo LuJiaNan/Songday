@@ -28,9 +28,10 @@
               </div>
               <div class="player-length" v-bind:style="playerLength">
                 <div class="player-position">{{minutes}}:{{seconds}}</div>
-                <div class="progressBlock" v-on:click="changePlayProgress">
+                <!-- <div class="progressBlock" v-on:click="changePlayProgress">
                   <div class="progress" v-bind:style="progressStyle"></div>
-                </div>
+                </div> -->
+                <my-progress :progressBlockStyle="progressBlockStyle" :progressStyle="progressStyle" @changePlayProgress="changePlayProgress"></my-progress>
                 <div class="player-duration">{{initMinutes}}:{{initSeconds}}</div>
               </div>
               <div class="player-cover">
@@ -47,7 +48,6 @@
             </div>
           </div>
         </div>
-        <!-- <my-progress :progressBlockStyle="progressBlockStyle" :progressStyle="progressStyle"></my-progress> -->
     </div>
 </template>
 
@@ -93,7 +93,13 @@ export default{
       },
       progressStyle: {
         width: 0,
+        height: '100%',
         background: 'deepskyblue'
+      },
+      progressBlockStyle: {
+        width: '300px',
+        background: 'gray',
+        height: '3px'
       },
       lyricStr: '',
       lyricHtml: '',
