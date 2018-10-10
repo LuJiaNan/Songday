@@ -41,7 +41,8 @@
             <div class="player-volume">
               <div id="volume">
                 <div v-bind:class="[volumeStatus == 'on' ? 'volume-on' : 'volume-off', 'volume-control']" v-on:click="changeVolumeIcon"></div>
-                <div class="volumeBlock" v-bind:style="{ width: maxVolume + 'px' }" v-on:click="changeVolume">
+                <div class="volumeBlock" v-bind:style="{ width: maxVolume + 'px'}" v-on:click="changeVolume" @mouseover="changeVolume" @mousemove="changeVolume">
+                  <div class="volumeTotal"></div>
                   <div class="volumeProgress" v-bind:style="{ width: currentVolume + 'px'}"></div>
                 </div>
               </div>
@@ -93,13 +94,10 @@ export default{
       },
       progressStyle: {
         width: 0,
-        height: '100%',
-        background: 'deepskyblue'
+        background: 'greenyellow'
       },
       progressBlockStyle: {
-        width: '300px',
-        background: 'gray',
-        height: '3px'
+        width: '300px'
       },
       lyricStr: '',
       lyricHtml: '',
@@ -168,6 +166,7 @@ export default{
       // this.lyricHtml = lyric.replace(/\n/g, '')
       // this.lyricStr = lyricStr
     },
+    // 歌词随播放进度滚动，且样式可定制
     playLyric: function (index, lineNum) {
       // console.log(lineNum)
       this.scrollPx = -lineNum * 20

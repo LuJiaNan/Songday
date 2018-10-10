@@ -1,5 +1,6 @@
 <template>
   <div class="progressBlock" v-bind:style="progressBlock" v-on:click="changePlayProgress">
+    <div class="progressTotal"></div>
     <div class="progress" v-bind:style="progress"></div>
   </div>
 </template>
@@ -27,3 +28,6 @@ export default {
   }
 }
 </script>
+<style scoped lang="less">
+  @import '../assets/less/play.less';
+</style>
