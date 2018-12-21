@@ -1,0 +1,151 @@
+@import 'sanitize.min.less';
+.content{
+  background-color: rgba(0, 0, 0, 0.9);
+}
+header {
+  position: relative;
+  min-height: 100vh;
+  background-image: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0) 90%), repeating-linear-gradient(135deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.05) 400px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+}
+header h1 {
+  position: relative;
+  z-index: 2;
+  font-family: 'Pacifico';
+  color: white;
+  font-size: 5rem;
+}
+h1 {
+  color: white;
+  font-family: 'Pacifico';
+}
+.menu {
+  position: fixed;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  font-family: "Dosis", sans-serif;
+  text-transform: uppercase;
+  transition: 0.25s;
+}
+.menu.open {
+  left: 0;
+}
+.menu ul {
+  position: absolute;
+  width: 90%;
+  height: 100%;
+  max-width: 400px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  max-width: 400px;
+  margin: 0 0 0 auto;
+  padding: 4rem 2rem 1rem;
+  background: rgba(0, 0, 0, 0.7);
+}
+.menu a {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  color: white;
+  text-decoration: none;
+  font-size: 2rem;
+  transition: 0.25s;
+}
+.menu a:hover {
+  background: white;
+  color: black;
+}
+.bar {
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  background: black;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.bar:before, .bar:after {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+  transform: translateX(-50%) rotateZ(15deg);
+  content: "";
+  display: block;
+  background: black;
+  width: 500px;
+  height: 3rem;
+  transition: 0.25s;
+}
+.bar:after {
+  width: 1000px;
+  height: 4rem;
+  bottom: -1rem;
+  background: rgba(0, 0, 0, 0.25);
+}
+.bar:hover {
+  background: white;
+}
+.bar:hover:before {
+  background: white;
+}
+.bar:hover:after {
+  background: rgba(255, 255, 255, 0.25);
+}
+.toggle {
+  position: relative;
+  z-index: 2;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  margin: 0 0 0 auto;
+  transition: 0.25s;
+}
+.toggle:before, .toggle:after, .toggle span {
+  position: absolute;
+  left: 50%;
+  display: block;
+  width: 2rem;
+  height: 2px;
+  background: white;
+  transition: 0.25s;
+}
+.toggle span {
+  text-indent: -999px;
+  overflow: hidden;
+  top: calc(1.5rem - 1px);
+  transform: translateX(-50%) rotateZ(0deg);
+  opacity: 1;
+}
+.toggle:before, .toggle:after {
+  content: "";
+}
+.toggle:before {
+  top: 0.75rem;
+  transform: translateX(-50%) rotateZ(0deg);
+}
+.toggle:after {
+  bottom: 0.75rem;
+  transform: translateX(-50%) rotateZ(0deg);
+}
+.toggle.open span {
+  opacity: 0;
+}
+.toggle.open:before {
+  top: calc(1.5rem - 1px);
+  transform: translateX(-50%) rotateZ(-225deg);
+}
+.toggle.open:after {
+  bottom: calc(1.5rem - 1px);
+  transform: translateX(-50%) rotateZ(225deg);
+}
+.bar:hover .toggle:before, .bar:hover .toggle:after, .bar:hover .toggle span {
+  background: black;
+}
