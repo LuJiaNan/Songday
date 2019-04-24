@@ -1,2 +1,2 @@
-language: vue
+language: node_js
 script: true
